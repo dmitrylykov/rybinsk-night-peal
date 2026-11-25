@@ -1,5 +1,6 @@
 #include "rybinsk/voice.hpp"
 
+#include <array>
 #include <vector>
 
 namespace rybinsk {
@@ -25,13 +26,11 @@ Voice voiceOf(const Peal& sheet) {
     std::vector<Stroke> filtered;
     filtered.reserve(n);
 
-    bool heard[9] = {};
+    std::array<bool, 9> heard{};
     for (int i = 0; i < n; ++i) {
         const Stroke s = sheet[i];
         if (s.bell == 0) {
-            for (bool& flag : heard) {
-                flag = false;
-            }
+            heard.fill(false);
             filtered.push_back(s);
         } else if (!heard[s.bell]) {
             heard[s.bell] = true;
